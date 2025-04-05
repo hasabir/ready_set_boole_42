@@ -1,76 +1,80 @@
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.getcwd(), '../')))
 from node import Node
 
-OPERATORS = {
-    "^": lambda A, B: f"{A}{B}!&{A}!{B}&|",
-    ">": lambda A, B: f"{A}!{B}|",
-    "=": lambda A, B: f"{A}{B}&{A}!{B}!&|",
-}
+class NegationNormalForm:
+    def __init__(self, formula: str):
+        self.formula = formula
+        self.formula_tree = None
+        self.is_negative = False
+        self.operators = {
+            "^": lambda A, B: f"{A}{B}!&{A}!{B}&|",
+            ">": lambda A, B: f"{A}!{B}|",
+            "=": lambda A, B: f"{A}{B}&{A}!{B}!&|",
+        }
+
+    def pars_formula(self):
+        try:
+            if self.formula[-1] == '!':
+                self.is_negative = True
+                self.formula = self.formula[:-1]
+            for i in self.formula:
+                if i not in "&!|^>=" and (not i.isalpha() or i.lower() == i):
+                    raise SyntaxError(f"Syntax error")
+            stack = []
+            for i in self.formula:
+                if i.isalpha():
+                    stack.append(Node(i))
+                elif i in "|&":
+                    node = Node(i)
+                    node.right, node.left= stack.pop(), stack.pop()
+                    stack.append(node)
+                elif i == '!':
+                    stock = stack.pop()
+                    stock.update_data(f"{stock.data}!")
+                    stack.append(stock)
+                elif i in  "=>^":
+                    B = stack.pop().data
+                    A = stack.pop().data
+                    stack.append(self.pars_formula(self.operators[i](A, B)))
+            if len(stack) != 1:
+                raise ValueError("Invalid formula")
+        except Exception as e:
+            raise e
+        self.formula_tree = stack.pop()
+        return self.formula_tree
 
 
-def pars_formula(formula):
-    try:
-        if formula[-1] == '!':
-            formula = formula[:-1]
-        for i in formula:
-            if i not in "&!|^>=" and (not i.isalpha() or i.lower() == i):
-                raise SyntaxError(f"Syntax error")
-        stack = []
-        for i in formula:
-            if i.isalpha():
-                stack.append(Node(i))
-            elif i in "|&":
-                node = Node(i)
-                node.right, node.left= stack.pop(), stack.pop()
-                stack.append(node)
-            elif i == '!':
-                stock = stack.pop()
-                stock.update_data(f"{stock.data}!")
-                stack.append(stock)
-            elif i in  "=>^":
-                B = stack.pop().data
-                A = stack.pop().data
-                stack.append(pars_formula(OPERATORS[i](A, B)))
-        if len(stack) != 1:
-            raise ValueError("Invalid formula")
-    except Exception as e:
-        raise e
-    return stack.pop()        
-
-
-def collect_nodes(formula_tree, is_negative):
-    if formula_tree is None:
-        return
-    collect_nodes(formula_tree.left, is_negative)
-    collect_nodes(formula_tree.right, is_negative)
-    node = formula_tree.data
-    
-    if node in "|&":
-        node = ('&' if node == '|' else '|') if is_negative else node
-    elif '!' not in node:
-        node = f"{node}!" if is_negative else node
-    else:
-        node = node[:-1] if is_negative else node
+    def collect_nodes(self, formula_tree):
+        if formula_tree is None:
+            return
+        self.collect_nodes(formula_tree.left)
+        self.collect_nodes(formula_tree.right)
+        node = formula_tree.data
         
-    print(node, end='')
+        if node in "|&":
+            node = ('&' if node == '|' else '|') if self.is_negative else node
+        elif '!' not in node:
+            node = f"{node}!" if self.is_negative else node
+        else:
+            node = node[:-1] if self.is_negative else node
+            
+        print(node, end='')
 
             
 def negation_normal_form(formula: str) -> str:
     try:
-        formula_tree = pars_formula(formula)
+        nnf = NegationNormalForm(formula)
+        formula_tree = nnf.pars_formula()
         formula_tree.display()
         print('\n********************************************\n')
-        is_negative = False
-        if formula[-1] == '!':
-            is_negative = True
-        collect_nodes(formula_tree, is_negative)
+
+        nnf.collect_nodes()
         print()
     except Exception as e:
         raise e
     
-    
-    
-    
-
             
 def main():
     try:
