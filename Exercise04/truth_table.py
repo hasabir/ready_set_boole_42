@@ -29,16 +29,15 @@ class Truth_table:
                     i += step_size
                 step_size *= 2
             # self.truth_table = truth_table
+            return self.truth_table
         except Exception as e:
             raise e
 
     def check_formula(self):
         try:
-            seen = set()
             for i in self.formula:
-                if i not in "01&!|^>=" and (not i.isalpha() or i in seen or i.lower() == i):
+                if i not in "01&!|^>=" and (not i.isalpha() or i.lower() == i):
                     raise SyntaxError(f"Syntax error")
-                seen.add(i)
         except Exception as e:
             raise e
 
@@ -74,6 +73,7 @@ class Truth_table:
                         boolean_formula += j
                 result = int(self.evaluate_formula(boolean_formula))
                 self.truth_table['='].append(result)
+            return self.truth_table
         except Exception as e:
             raise e
 
