@@ -12,16 +12,16 @@ OPERATORS = {
 def eval_formula(formula: str)-> bool:
     try:
         stack = []
-        for i in formula:
-            if i.isdigit():
-                stack.append(bool(int(i)))
+        for tocken in formula:
+            if tocken.isdigit():
+                stack.append(bool(int(tocken)))
             else:
                 stock1 = stack.pop()
-                if i == "!":
-                    stack.append(OPERATORS[i](stock1))
+                if tocken == "!":
+                    stack.append(OPERATORS[tocken](stock1))
                 else:
                     stock2 = stack.pop()
-                    stack.append(OPERATORS[i](stock1, stock2))
+                    stack.append(OPERATORS[tocken](stock1, stock2))
         if len(stack) != 1:
             raise ValueError("Invalid formula")
         return stack.pop()
