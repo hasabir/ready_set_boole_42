@@ -8,7 +8,6 @@ OPERATORS = {
 }
 
 
-
 def eval_formula(formula: str)-> bool:
     try:
         stack = []
@@ -27,7 +26,6 @@ def eval_formula(formula: str)-> bool:
         return stack.pop()
     except Exception as e:
         raise e
-    
 
 
 def main():
@@ -38,7 +36,6 @@ def main():
         print(f"Result: {eval_formula(formula)}")
     except Exception as e:
         print(f"Error: {e}")
-
 
 
 if __name__ == "__main__":
