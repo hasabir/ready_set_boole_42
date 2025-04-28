@@ -9,7 +9,7 @@ def adder(a: uint32, b: uint32) -> uint32:
         while carry:
             result, carry = result ^ carry, (result & carry) << 1
             
-        return result
+        return uint32(result)
     except Exception as e:
         print(f"Error: {e}")
 
