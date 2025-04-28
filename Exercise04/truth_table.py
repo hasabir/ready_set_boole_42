@@ -28,7 +28,6 @@ class Truth_table:
                         self.truth_table[column].append(prev)
                     i += step_size
                 step_size *= 2
-            # self.truth_table = truth_table
             return self.truth_table
         except Exception as e:
             raise e
@@ -36,7 +35,7 @@ class Truth_table:
     def check_formula(self):
         try:
             for i in self.formula:
-                if i not in "01&!|^>=" and (not i.isalpha() or i.lower() == i):
+                if i not in "&!|^>=" and (not i.isalpha() or i.lower() == i):
                     raise SyntaxError(f"Syntax error")
         except Exception as e:
             raise e
