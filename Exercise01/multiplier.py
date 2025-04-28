@@ -14,7 +14,7 @@ def multiplier(a: uint32, b: uint32) -> uint32:
                 result = adder(result, a)
             a <<= 1
             b >>= 1
-        return result
+        return uint32(result)
     except Exception as e:
         print(f"Error: {e}")
 
