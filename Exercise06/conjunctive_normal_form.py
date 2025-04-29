@@ -2,7 +2,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.getcwd(), '../')))
-from Exercise05.node import Node
+from utilities.node import Node
 from Exercise05.negation_normal_form import NegationNormalForm 
 
 
@@ -58,7 +58,7 @@ class ConjunctiveNormalForm(NegationNormalForm):
 def conjunctive_normal_form(formula: str) -> str:
     try:
         cnf = ConjunctiveNormalForm(formula)
-        formula_tree = cnf.pars_formula()
+        formula_tree = cnf.build_tree(cnf.pars_formula(formula))
         print('\n********************************************\n')
         formula_tree.display()
         print("\nConjunctive Normal Form:", end=' ')
