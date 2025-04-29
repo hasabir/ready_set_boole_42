@@ -1,9 +1,8 @@
-# from node import Node
 import os
 import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.getcwd(), '../')))
 from utilities.node import Node
-from Exercise05.negation_normal_form import NegationNormalForm 
+from Exercise05.negation_normal_form import NegationNormalForm , negation_normal_form
 
 
 class ConjunctiveNormalForm(NegationNormalForm):
@@ -57,17 +56,14 @@ class ConjunctiveNormalForm(NegationNormalForm):
 
 def conjunctive_normal_form(formula: str) -> str:
     try:
+        formula = negation_normal_form(formula)
         cnf = ConjunctiveNormalForm(formula)
         formula_tree = cnf.build_tree(cnf.pars_formula(formula))
-        print('\n********************************************\n')
-        formula_tree.display()
-        print("\nConjunctive Normal Form:", end=' ')
+        # formula_tree.display()
+        # print('\n********************************************\n')
         formula_tree = cnf.distribute_or_over_ands(formula_tree)
-        cnf.collect_nodes(formula_tree)
-        
-        print('\n********************************************\n')
-        formula_tree.display()
-        print()
+        # formula_tree.display()
+        return(cnf.get_result(formula_tree))
     except Exception as e:
         raise e
 
@@ -77,7 +73,7 @@ def conjunctive_normal_form(formula: str) -> str:
 def main():
     try:
         formula = input("Enter a boolean formula: ")
-        conjunctive_normal_form(formula)
+        print("Conjunctive Normal Form:", conjunctive_normal_form(formula))
     except Exception as e:
         print(f"Error: {e}")
 
