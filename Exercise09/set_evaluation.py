@@ -6,8 +6,8 @@ OPERATORS = {
 
 def eval_set(formula: str, sets: list[set[int]]) -> set[int]:
     universe = set().union(*sets)
-    variables = {i: s for i, s in zip(set(filter(str.isalpha, formula)), sets)}
-    print(variables)
+    alphabets = [char for char in formula if char.isalpha()]
+    variables = {i: s for i, s in zip(alphabets, sets)}
     stack = []
 
     try:
@@ -41,9 +41,9 @@ def eval_set(formula: str, sets: list[set[int]]) -> set[int]:
 
 def main():
     sets = [
-        {0, 1, 2},    
+        {0, 1, 2},
         {2, 3, 4},
-        {5, 6, 7},   
+        {5, 6, 7},
     ]
     formula = input("Enter a propositional formula in RPN: ")  # e.g., "AB&", "A!", "AB>", "AB&C!^"
     try:
