@@ -14,6 +14,8 @@ class NegationNormalForm:
             "=": lambda A, B: f"{A}{B}&{A}!{B}!&|",
         }
 
+    def get_result(self):
+        return self.formula
 
     def pars_formula(self, formula):
         try:
@@ -63,6 +65,7 @@ class NegationNormalForm:
 
     def collect_nodes(self, formula_tree, is_negative=False):
         if formula_tree is None:
+            self.formula = ''
             return None
 
         if formula_tree.data == '!':
@@ -79,8 +82,9 @@ class NegationNormalForm:
             if is_negative:
                 node_data += '!'
         
-        print(node_data, end='')
-
+        self.formula += node_data
+        # return result
+        # print(node_data, end='')
 
 def negation_normal_form(formula: str) -> str:
     try:
@@ -91,8 +95,9 @@ def negation_normal_form(formula: str) -> str:
         print('\n********************************************\n')
 
 
+        # nnf.collect_nodes(formula_tree)
         nnf.collect_nodes(formula_tree)
-        print()
+        print(nnf.get_result())
     except Exception as e:
         raise e
     
