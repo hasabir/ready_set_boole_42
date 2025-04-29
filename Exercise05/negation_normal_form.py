@@ -6,6 +6,7 @@ from utilities.node import Node
 class NegationNormalForm:
     def __init__(self, formula: str):
         self.formula = formula
+        self.result = ""
         self.formula_tree = None
         self.is_negative = False
         self.operators = {
@@ -15,7 +16,7 @@ class NegationNormalForm:
         }
 
     def get_result(self):
-        return self.formula
+        return self.result
 
     def pars_formula(self, formula):
         try:
@@ -36,6 +37,7 @@ class NegationNormalForm:
             return "".join(stack)
         except Exception as e:
             raise e
+
 
     def build_tree(self, formula):
         try:
@@ -65,7 +67,7 @@ class NegationNormalForm:
 
     def collect_nodes(self, formula_tree, is_negative=False):
         if formula_tree is None:
-            self.formula = ''
+            # self.formula = ''
             return None
 
         if formula_tree.data == '!':
@@ -81,10 +83,8 @@ class NegationNormalForm:
         else:
             if is_negative:
                 node_data += '!'
-        
-        self.formula += node_data
-        # return result
-        # print(node_data, end='')
+
+        self.result += node_data
 
 def negation_normal_form(formula: str) -> str:
     try:
@@ -93,9 +93,6 @@ def negation_normal_form(formula: str) -> str:
         formula_tree = nnf.build_tree(formula)
         # formula_tree.display()
         print('\n********************************************\n')
-
-
-        # nnf.collect_nodes(formula_tree)
         nnf.collect_nodes(formula_tree)
         print(nnf.get_result())
     except Exception as e:
