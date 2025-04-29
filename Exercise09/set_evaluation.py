@@ -39,6 +39,7 @@ def eval_set(formula: str, sets: list[set[int]]) -> set[int]:
         print("Error: ", e)
 
 
+
 def main():
     sets = [
         {0, 1, 2},
