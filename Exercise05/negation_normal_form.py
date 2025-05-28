@@ -2,6 +2,7 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.getcwd(), '../')))
 from utilities.node import Node
+from Exercise04.truth_table import print_truth_table
 
 class NegationNormalForm:
     def __init__(self, formula: str):
@@ -10,9 +11,9 @@ class NegationNormalForm:
         self.formula_tree = None
         self.is_negative = False
         self.operators = {
-            "^": lambda A, B: f"{A}{B}!&{A}!{B}&|",
-            ">": lambda A, B: f"{A}!{B}|",
-            "=": lambda A, B: f"{A}{B}&{A}!{B}!&|",
+            "^": lambda A, B: f"{A}{B}|{A}{B}&!&",  # XOR
+            ">": lambda A, B: f"{A}!{B}|",          # Implication
+            "=": lambda A, B: f"{A}{B}&{A}!{B}!&|"
         }
 
     def get_result(self, formula_tree):
@@ -102,7 +103,10 @@ def negation_normal_form(formula: str) -> str:
 def main():
     try:
         formula = input("Enter the formula: ")
+        print_truth_table(formula)
         print(negation_normal_form(formula))
+        print_truth_table(negation_normal_form(formula))
+        
     except Exception as e:
         print(f"Error: {e}")
 
