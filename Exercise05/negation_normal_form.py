@@ -104,8 +104,9 @@ def main():
     try:
         formula = input("Enter the formula: ")
         print_truth_table(formula)
-        print(negation_normal_form(formula))
-        print_truth_table(negation_normal_form(formula))
+        result = negation_normal_form(formula)
+        print("result: ",result)
+        print_truth_table(result)
         
     except Exception as e:
         print(f"Error: {e}")

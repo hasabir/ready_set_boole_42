@@ -1,6 +1,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.getcwd(), '../')))
+from Exercise04.truth_table import print_truth_table
 from utilities.node import Node
 from Exercise05.negation_normal_form import NegationNormalForm , negation_normal_form
 
@@ -59,10 +60,9 @@ def conjunctive_normal_form(formula: str) -> str:
         formula = negation_normal_form(formula)
         cnf = ConjunctiveNormalForm(formula)
         formula_tree = cnf.build_tree(cnf.pars_formula(formula))
-        # formula_tree.display()
-        # print('\n********************************************\n')
+        formula_tree.display()
         formula_tree = cnf.distribute_or_over_ands(formula_tree)
-        # formula_tree.display()
+        formula_tree.display()
         return(cnf.get_result(formula_tree))
     except Exception as e:
         raise e
@@ -73,7 +73,12 @@ def conjunctive_normal_form(formula: str) -> str:
 def main():
     try:
         formula = input("Enter a boolean formula: ")
-        print("Conjunctive Normal Form:", conjunctive_normal_form(formula))
+        # print("Conjunctive Normal Form:", conjunctive_normal_form(formula))
+        print_truth_table(formula)
+        result = conjunctive_normal_form(formula)
+        print("result: ",result)
+        print('\n********************************************\n')
+        print_truth_table(result)
     except Exception as e:
         print(f"Error: {e}")
 

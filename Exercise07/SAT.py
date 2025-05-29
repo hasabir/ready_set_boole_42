@@ -4,7 +4,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.getcwd(), '../')))
 from Exercise04.truth_table import Truth_table
 
 
-def sat(formula: str) -> str:
+def sat(formula: str) -> bool:
     table = Truth_table(formula)
     table.check_formula()
     table_result = table.get_result()

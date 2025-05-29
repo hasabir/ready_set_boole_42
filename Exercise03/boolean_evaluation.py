@@ -2,7 +2,7 @@ OPERATORS = {
     "&": lambda x, y: x & y,
     "|": lambda x, y: x | y,
     "^": lambda x, y: x ^ y,
-    ">": lambda x, y: x > y,
+    ">": lambda x, y: not x or y,
     "=": lambda x, y: x == y,
     "!": lambda x: not x, 
 }

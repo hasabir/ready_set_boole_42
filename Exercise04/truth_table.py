@@ -15,7 +15,7 @@ class Truth_table:
     
     def _get_table(self):
         try:
-            self.truth_table = {i: [] for i in self.formula if i.isalpha()}
+            
             step_size = 1
             self.num_of_rows = 2 ** len(self.truth_table)
             
@@ -34,9 +34,11 @@ class Truth_table:
 
     def check_formula(self):
         try:
-            for i in self.formula:
-                if i not in "&!|^>=" and (not i.isalpha() or i.lower() == i):
+            for item in self.formula:
+                if item not in "&!|^>=" and (not item.isalpha() or item.lower() == item):
                     raise SyntaxError(f"Syntax error")
+                elif item.isalpha():
+                    self.truth_table[item] = []
         except Exception as e:
             raise e
 
@@ -50,7 +52,9 @@ class Truth_table:
                     if i == "!":
                         stack.append(self.operators[i](stack.pop()))
                     else:
-                        stack.append(self.operators[i](stack.pop(), stack.pop()))
+                        B = stack.pop()
+                        A = stack.pop()
+                        stack.append(self.operators[i](A, B))
             if len(stack) != 1:
                 raise ValueError("Invalid formula")
             return stack.pop()
